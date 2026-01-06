@@ -8,40 +8,6 @@ export interface URLComponent {
   isSame: boolean;
 }
 
-/**
- * Generate a unified diff format string for comparing two strings
- */
-export function generateDiffText(oldString: string, newString: string): string {
-  const oldLines = oldString.split('\n');
-  const newLines = newString.split('\n');
-
-  let result = `--- old
-+++ new
-@@ -1,${oldLines.length} +1,${newLines.length} @@
-`;
-
-  // Simple line-by-line diff generation
-  const maxLength = Math.max(oldLines.length, newLines.length);
-
-  for (let i = 0; i < maxLength; i++) {
-    const oldLine = oldLines[i];
-    const newLine = newLines[i];
-
-    if (oldLine !== newLine) {
-      if (oldLine !== undefined) {
-        result += `- ${oldLine}\n`;
-      }
-      if (newLine !== undefined) {
-        result += `+ ${newLine}\n`;
-      }
-    } else if (oldLine !== undefined) {
-      result += `  ${oldLine}\n`;
-    }
-  }
-
-  return result;
-}
-
 export function parseURLComponents(url1: string, url2: string): URLComponent[] {
   const components: URLComponent[] = [];
 

@@ -1,22 +1,15 @@
 import { useState } from 'react';
-import { Diff, parseDiff, Hunk } from 'react-diff-view';
-import 'react-diff-view/style/index.css';
-import { generateDiffText, parseURLComponents } from '../utils/diffUtils';
+import { parseURLComponents } from '../utils/diffUtils';
 import '../styles/UrlDiffTool.css';
 
 export const UrlDiffTool: React.FC = () => {
   const [currentUrl, setCurrentUrl] = useState<string>('https://example.com/old-path');
   const [newUrl, setNewUrl] = useState<string>('');
   const [showDiff, setShowDiff] = useState<boolean>(false);
-  const [diffResult, setDiffResult] = useState<ReturnType<typeof parseDiff> | null>(null);
 
   const handleUpdateUrl = () => {
     if (newUrl.trim()) {
       if (newUrl !== currentUrl) {
-        // Generate a simple diff by comparing the two URLs
-        const diffText = generateDiffText(currentUrl, newUrl);
-        const parsed = parseDiff(diffText);
-        setDiffResult(parsed);
         setShowDiff(true);
       } else {
         alert('The new URL is the same as the current URL. No changes to display.');
@@ -31,13 +24,11 @@ export const UrlDiffTool: React.FC = () => {
     setCurrentUrl(newUrl);
     setNewUrl('');
     setShowDiff(false);
-    setDiffResult(null);
   };
 
   const handleReset = () => {
     setNewUrl('');
     setShowDiff(false);
-    setDiffResult(null);
   };
 
   return (
@@ -93,19 +84,6 @@ export const UrlDiffTool: React.FC = () => {
             )}
           </div>
         </div>
-
-        {showDiff && diffResult && diffResult.length > 0 && (
-          <div className="diff-section">
-            <h2>Differences</h2>
-            <Diff viewType="split" diffType="split" hunks={diffResult[0]?.hunks || []}>
-              {(hunks) =>
-                hunks.map((hunk, i) => (
-                  <Hunk key={i} hunk={hunk} />
-                ))
-              }
-            </Diff>
-          </div>
-        )}
 
         {showDiff && newUrl.trim() && (
           <div className="diff-section">
