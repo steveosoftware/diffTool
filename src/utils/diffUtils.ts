@@ -16,10 +16,10 @@ export function parseURLComponents(url1: string, url2: string): URLComponent[] {
     const parsedUrl2 = new URL(url2);
 
     // Protocol
-    const protocol1 = parsedUrl1.protocol.replace(':', '');
-    const protocol2 = parsedUrl2.protocol.replace(':', '');
+    const protocol1 = parsedUrl1.protocol.replace(":", "");
+    const protocol2 = parsedUrl2.protocol.replace(":", "");
     components.push({
-      name: 'protocol',
+      name: "protocol",
       value1: protocol1,
       value2: protocol2,
       isSame: protocol1 === protocol2,
@@ -29,7 +29,7 @@ export function parseURLComponents(url1: string, url2: string): URLComponent[] {
     const host1 = parsedUrl1.host;
     const host2 = parsedUrl2.host;
     components.push({
-      name: 'host',
+      name: "host",
       value1: host1,
       value2: host2,
       isSame: host1 === host2,
@@ -39,7 +39,7 @@ export function parseURLComponents(url1: string, url2: string): URLComponent[] {
     const pathname1 = parsedUrl1.pathname;
     const pathname2 = parsedUrl2.pathname;
     components.push({
-      name: 'pathname',
+      name: "pathname",
       value1: pathname1,
       value2: pathname2,
       isSame: pathname1 === pathname2,
@@ -58,9 +58,9 @@ export function parseURLComponents(url1: string, url2: string): URLComponent[] {
     Array.from(allParamNames)
       .sort()
       .forEach((paramName) => {
-        const value1 = params1.get(paramName) || '';
-        const value2 = params2.get(paramName) || '';
-        const isSame = value1 && value2 && value1 === value2;
+        const value1 = params1.get(paramName) || "";
+        const value2 = params2.get(paramName) || "";
+        const isSame = !!(value1 && value2 && value1 === value2);
         components.push({
           name: `Query Param: ${paramName}`,
           value1,
@@ -71,7 +71,7 @@ export function parseURLComponents(url1: string, url2: string): URLComponent[] {
 
     return components;
   } catch (e) {
-    console.error('Invalid URL:', e);
+    console.error("Invalid URL:", e);
     return [];
   }
 }
@@ -80,5 +80,5 @@ export function parseURLComponents(url1: string, url2: string): URLComponent[] {
  * Split a URL by & and return segments with line breaks for easier reading
  */
 export function urlSegments(url: string): string[] {
-  return url.split('&');
+  return url.split("&");
 }
